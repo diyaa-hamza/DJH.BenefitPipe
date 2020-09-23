@@ -79,6 +79,30 @@ namespace DJH.BenefitPipe
 
         }
 
+        public PaymentResponseModel DecryptResponse(string trandata)
+        {
+            try
+            {
+
+                var stringJson = Decrypt(trandata);
+
+                if (String.IsNullOrEmpty(stringJson))
+                    return null;
+
+                var responseList = JsonConvert.DeserializeObject<List<PaymentResponseModel>>(stringJson);
+                if (responseList == null || responseList.Count == 0)
+                    return null;
+
+                return responseList.FirstOrDefault();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
         private string EncryptAES(string encryptString, string key)
         {
             var keybytes = Encoding.UTF8.GetBytes(key);
