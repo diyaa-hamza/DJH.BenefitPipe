@@ -2,6 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Diyaa Hamza</Authors>
+    <Company>dhamza.com</Company>
+    <Description>SDK for Benefit (Bahrain) rest api</Description>
+    <Copyright>Diyaa Hamza</Copyright>
+    <RepositoryUrl>https://github.com/diyaa-hamza/DJH.BenefitPipe</RepositoryUrl>
+    <PackageTags>benefit,bahrain</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
