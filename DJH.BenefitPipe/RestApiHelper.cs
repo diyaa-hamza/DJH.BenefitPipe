@@ -17,7 +17,7 @@ namespace DJH.BenefitPipe
         {
             Account = account;
             Environment = environment;
-            BaseUrl = Environment == Environment.Test ? "https://www.test.benefit-gateway.bh" : "https://www.test.benefit-gateway.bh";
+            BaseUrl = Environment == Environment.Test ? "https://www.test.benefit-gateway.bh" : "https://www.benefit-gateway.bh";
         }
 
         public async Task<ResponseModel> MakeRequest(string trandata)
