@@ -11,6 +11,8 @@
     <PackageLicenseExpression></PackageLicenseExpression>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Version>1.1.2</Version>
+    <PackageProjectUrl>https://github.com/diyaa-hamza/DJH.BenefitPipe</PackageProjectUrl>
+    <PackageReleaseNotes>adding Benefit Rest Api production endpoint</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
