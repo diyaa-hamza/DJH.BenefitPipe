@@ -10,8 +10,8 @@
     <PackageTags>benefit,bahrain</PackageTags>
     <PackageLicenseExpression></PackageLicenseExpression>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Version>1.1.2</Version>
-    <PackageProjectUrl>https://github.com/diyaa-hamza/DJH.BenefitPipe</PackageProjectUrl>
+    <Version>1.1.3</Version>
+    <PackageProjectUrl></PackageProjectUrl>
     <PackageReleaseNotes>adding Benefit Rest Api production endpoint</PackageReleaseNotes>
   </PropertyGroup>
 
