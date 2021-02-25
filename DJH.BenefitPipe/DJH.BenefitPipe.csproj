@@ -10,14 +10,14 @@
     <PackageTags>benefit,bahrain</PackageTags>
     <PackageLicenseExpression></PackageLicenseExpression>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Version>1.1.3</Version>
+    <Version>1.1.4</Version>
     <PackageProjectUrl></PackageProjectUrl>
     <PackageReleaseNotes>adding Benefit Rest Api production endpoint</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="RestSharp" Version="106.11.5" />
+    <PackageReference Include="RestSharp" Version="106.11.7" />
   </ItemGroup>
 
   <ItemGroup>
