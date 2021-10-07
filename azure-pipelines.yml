@@ -2,7 +2,7 @@ trigger:
   - master
 
 pool:
-  vmImage: "ubuntu-16.04"
+  vmImage: "ubuntu-20.0"
 
 stages:
   - stage: Build_Stage
@@ -13,27 +13,20 @@ stages:
         variables:
           BuildConfiguration: release
         steps:
-          - task: DotNetCoreCLI@2
-            inputs:
-              command: "restore"
-              projects: "**/*.csproj"
-              feedsToUse: "select"
-
-          - task: DotNetCoreCLI@2
-            inputs:
-              command: "build"
-              projects: "**/*.csproj"
-              arguments: "--configuration $(BuildConfiguration)"
-
-          - task: DotNetCoreCLI@2
-            inputs:
-              command: "pack"
-              packagesToPack: "**/*.csproj"
-              versioningScheme: "off"
-
-          - task: DotNetCoreCLI@2
-            inputs:
-              command: "push"
-              packagesToPush: "$(Build.ArtifactStagingDirectory)/*.nupkg"
-              nuGetFeedType: "internal"
-              publishVstsFeed: "f50482f5-11a3-4eea-9ab0-2b4c997bd0e2"
+        - task: NuGetCommand@2
+          inputs:
+            command: 'restore'
+            restoreSolution: '**/*.sln'
+            feedsToUse: 'select'
+            vstsFeed: '1b4829bf-22af-4b66-82e2-4c258baf759e/5d29b41f-f690-4420-bc53-983eda137f11'
+        - task: NuGetCommand@2
+          inputs:
+            command: 'pack'
+            packagesToPack: 'DJH.BenefitPipe/*.csproj'
+            versioningScheme: 'byBuildNumber'
+        - task: NuGetCommand@2
+          inputs:
+            command: 'push'
+            packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+            nuGetFeedType: 'internal'
+            publishVstsFeed: '1b4829bf-22af-4b66-82e2-4c258baf759e/5d29b41f-f690-4420-bc53-983eda137f11'
