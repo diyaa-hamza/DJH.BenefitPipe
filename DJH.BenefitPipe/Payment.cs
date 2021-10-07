@@ -222,7 +222,7 @@ namespace DJH.BenefitPipe
                              .ToArray();
         }
 
-        private string DecryptStringFromBytes(byte[] cipherText, byte[] key, byte[] iv)
+        private static string DecryptStringFromBytes(byte[] cipherText, byte[] key, byte[] iv)
         {
             // Check arguments.
             if (cipherText == null || cipherText.Length <= 0)
@@ -245,7 +245,7 @@ namespace DJH.BenefitPipe
             using (var rijAlg = new RijndaelManaged())
             {
                 rijAlg.Mode = CipherMode.CBC;
-                rijAlg.Padding = PaddingMode.PKCS7;
+                rijAlg.Padding = PaddingMode.None;
                 rijAlg.FeedbackSize = 128;
 
                 rijAlg.Key = key;
