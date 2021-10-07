@@ -13,18 +13,23 @@ namespace DJH.BenefitPipe
     {
         public Payment(AccountConfig account, PaymentRequest paymentRequest)
         {
-            Account = account ?? throw new ArgumentNullException("The benefit account details is required.", nameof(account));
-            PaymentRequest = paymentRequest ?? throw new ArgumentNullException("The payment request payload is required.", nameof(paymentRequest));
+            Account = account ??
+                      throw new ArgumentNullException("The benefit account details is required.", nameof(account));
+            PaymentRequest = paymentRequest ??
+                             throw new ArgumentNullException("The payment request payload is required.",
+                                 nameof(paymentRequest));
         }
 
         public Payment(AccountConfig account)
         {
-            Account = account ?? throw new ArgumentNullException("The benefit account details is required.", nameof(account));
+            Account = account ??
+                      throw new ArgumentNullException("The benefit account details is required.", nameof(account));
         }
 
 
         private AccountConfig Account { get; }
         private PaymentRequest PaymentRequest { get; }
+
         public async Task<PaymentRequestResponse> MakeARequest()
         {
             try
@@ -52,7 +57,7 @@ namespace DJH.BenefitPipe
 
                 var listOfRequests = new List<dynamic>() { requestPayLoadJson };
 
-                var trandata = EncryptAES(JsonConvert.SerializeObject(listOfRequests), Account.TermResourceKey);
+                var trandata = EncryptAes(JsonConvert.SerializeObject(listOfRequests), Account.TermResourceKey);
 
                 var apiHelper = new RestApiHelper(Account, PaymentRequest.Environment);
                 var apiRespo = await apiHelper.MakeRequest(trandata);
@@ -75,15 +80,12 @@ namespace DJH.BenefitPipe
             {
                 throw ex;
             }
-
-
         }
 
         public PaymentResponseModel DecryptResponse(string trandata)
         {
             try
             {
-
                 var stringJson = Decrypt(trandata);
 
                 if (String.IsNullOrEmpty(stringJson))
@@ -94,50 +96,49 @@ namespace DJH.BenefitPipe
                     return null;
 
                 return responseList.FirstOrDefault();
-
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-
         }
 
-        private string EncryptAES(string encryptString, string key)
+        private static string EncryptAes(string encryptString, string key)
         {
-            var keybytes = Encoding.UTF8.GetBytes(key);
+            var keyBytes = Encoding.UTF8.GetBytes(key);
             var iv = Encoding.UTF8.GetBytes("PGKEYENCDECIVSPC");
             string hexString;
             try
             {
-                var encrypted = EncryptStringToBytes(encryptString, keybytes, iv);
-                hexString = byteArrayToHexString(encrypted);
+                var encrypted = EncryptStringToBytes(encryptString, keyBytes, iv);
+                hexString = ByteArrayToHexString(encrypted);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
-            finally
-            {
-            }
+
             return hexString.ToUpper();
         }
 
-        public static byte[] EncryptStringToBytes(string plainText, byte[] key, byte[] iv)
+        private static byte[] EncryptStringToBytes(string plainText, byte[] key, byte[] iv)
         {
             // Check arguments.
             if (plainText == null || plainText.Length <= 0)
             {
                 throw new ArgumentNullException("plainText");
             }
+
             if (key == null || key.Length <= 0)
             {
                 throw new ArgumentNullException("key");
             }
+
             if (iv == null || iv.Length <= 0)
             {
                 throw new ArgumentNullException("key");
             }
+
             byte[] encrypted;
             // Create a RijndaelManaged object
             // with the specified key and IV.
@@ -163,6 +164,7 @@ namespace DJH.BenefitPipe
                             //Write all data to the stream.
                             swEncrypt.Write(plainText);
                         }
+
                         encrypted = msEncrypt.ToArray();
                     }
                 }
@@ -173,17 +175,18 @@ namespace DJH.BenefitPipe
         }
 
 
-        public static string byteArrayToHexString(byte[] data)
+        private static string ByteArrayToHexString(byte[] data)
         {
-            return byteArrayToHexString(data, data.Length);
+            return ByteArrayToHexString(data, data.Length);
         }
-        public static string byteArrayToHexString(byte[] data, int length)
+
+        private static string ByteArrayToHexString(byte[] data, int length)
         {
-            string HEX_DIGITS = "0123456789abcdef";
+            var HEX_DIGITS = "0123456789abcdef";
             var buf = new StringBuilder();
-            for (int i = 0; i != length; i++)
+            for (var i = 0; i != length; i++)
             {
-                int v = data[i] & 0xff;
+                var v = data[i] & 0xff;
                 buf.Append(HEX_DIGITS[v >> 4]);
                 buf.Append(HEX_DIGITS[v & 0xf]);
             }
@@ -197,7 +200,7 @@ namespace DJH.BenefitPipe
         /// </summary>
         /// <param name="cypher"></param>
         /// <returns></returns>
-        public string Decrypt(string cypher)
+        private string Decrypt(string cypher)
         {
             try
             {
@@ -210,16 +213,16 @@ namespace DJH.BenefitPipe
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
 
-        public byte[] StringToByteArray(string hex)
+        private static byte[] StringToByteArray(string hex)
         {
             return Enumerable.Range(0, hex.Length)
-                             .Where(x => x % 2 == 0)
-                             .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
-                             .ToArray();
+                .Where(x => x % 2 == 0)
+                .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
+                .ToArray();
         }
 
         private static string DecryptStringFromBytes(byte[] cipherText, byte[] key, byte[] iv)
@@ -227,15 +230,17 @@ namespace DJH.BenefitPipe
             // Check arguments.
             if (cipherText == null || cipherText.Length <= 0)
             {
-                throw new ArgumentNullException("cipherText");
+                throw new ArgumentNullException(nameof(cipherText));
             }
+
             if (key == null || key.Length <= 0)
             {
-                throw new ArgumentNullException("key");
+                throw new ArgumentNullException(nameof(key));
             }
+
             if (iv == null || iv.Length <= 0)
             {
-                throw new ArgumentNullException("key");
+                throw new ArgumentNullException(nameof(key));
             }
 
             string plaintext = null;
@@ -250,12 +255,12 @@ namespace DJH.BenefitPipe
 
                 rijAlg.Key = key;
                 rijAlg.IV = iv;
-                var decryptor = rijAlg.CreateDecryptor(rijAlg.Key, rijAlg.IV);
+                var decrypt = rijAlg.CreateDecryptor(rijAlg.Key, rijAlg.IV);
 
                 // Create the streams used for decryption.
                 using (var msDecrypt = new MemoryStream(cipherText))
                 {
-                    using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                    using (var csDecrypt = new CryptoStream(msDecrypt, decrypt, CryptoStreamMode.Read))
                     {
                         using (var srDecrypt = new StreamReader(csDecrypt))
                         {
@@ -269,8 +274,5 @@ namespace DJH.BenefitPipe
 
             return plaintext;
         }
-
-
     }
-
 }
