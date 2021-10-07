@@ -10,7 +10,7 @@
     <PackageTags>benefit,bahrain</PackageTags>
     <PackageLicenseExpression></PackageLicenseExpression>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Version>1.1.5</Version>
+    <Version>1.1.7</Version>
     <PackageProjectUrl></PackageProjectUrl>
     <PackageReleaseNotes>adding Benefit Rest Api production endpoint</PackageReleaseNotes>
   </PropertyGroup>

@@ -200,7 +200,7 @@ namespace DJH.BenefitPipe
         /// </summary>
         /// <param name="cypher"></param>
         /// <returns></returns>
-        private string Decrypt(string cypher)
+        public string Decrypt(string cypher)
         {
             try
             {
@@ -250,7 +250,7 @@ namespace DJH.BenefitPipe
             using (var rijAlg = new RijndaelManaged())
             {
                 rijAlg.Mode = CipherMode.CBC;
-                rijAlg.Padding = PaddingMode.None;
+                rijAlg.Padding = PaddingMode.PKCS7;
                 rijAlg.FeedbackSize = 128;
 
                 rijAlg.Key = key;
