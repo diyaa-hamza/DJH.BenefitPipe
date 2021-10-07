@@ -16,7 +16,7 @@ stages:
         - task: NuGetCommand@2
           inputs:
             command: 'restore'
-            restoreSolution: '**/*.sln'
+            restoreSolution: '$(Build.ArtifactStagingDirectory)/DJH.BenefitPipe/*.csproj'
             feedsToUse: 'select'
             vstsFeed: '1b4829bf-22af-4b66-82e2-4c258baf759e/5d29b41f-f690-4420-bc53-983eda137f11'
         - task: NuGetCommand@2
