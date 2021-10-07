@@ -22,7 +22,7 @@ stages:
         - task: NuGetCommand@2
           inputs:
             command: 'pack'
-            packagesToPack: 'DJH.BenefitPipe/*.csproj'
+            packagesToPack: '$(Build.ArtifactStagingDirectory)/DJH.BenefitPipe/*.csproj'
             versioningScheme: 'off'
         - task: NuGetCommand@2
           inputs:
